@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #E6F0FF;
+            height: 100%;
+        }
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .popup-content {
+            background-color: #FFFFFF;
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        .popup-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #004AAD;
+            margin-bottom: 20px;
+        }
+        .name-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #004AAD;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        .continue-btn {
+            background-color: #004AAD;
+            color: #FFFFFF;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .continue-btn:hover {
+            background-color: #003C8A;
+        }
+        .guest-link {
+            display: block;
+            margin-top: 20px;
+            color: #004AAD;
+            text-decoration: none;
+        }
+        .profile-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            color: #000;
+            justify-content: space-between;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .profile-image {
+            aspect-ratio: 2.5;
+            object-fit: cover;
+            object-position: center;
+            width: 280px;
+            max-width: 100%;
+            border-radius: 12px;
+        }
+        .greeting-container {
+            display: flex;
+            margin-top: 36px;
+            padding-left: 53px;
+            flex-direction: column;
+        }
+        .greeting-name {
+            align-self: center;
+            font: 700 40px/110% 'Poppins', sans-serif;
+            color: #004AAD;
+        }
+        .greeting-message {
+            align-self: flex-start;
+            margin-top: 7px;
+            font: 600 30px/147% 'Poppins', sans-serif;
+            color: #1A1A1A;
+        }
+        .main-content {
+            display: flex;
+            margin-top: 11px;
+            flex-direction: column;
+        }
+        .navigation {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .nav-item {
+            text-align: center;
+            align-self: stretch;
+            margin: auto 0;
+            font: 700 16px/150% 'Poppins', sans-serif;
+            color: #004AAD;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .nav-item:hover {
+            color: #003C8A;
+        }
+        .user-card {
+            border-radius: 12px;
+            background-color: #FCE4EC;
+            align-self: stretch;
+            display: flex;
+            gap: 16px;
+            padding: 12px;
+        }
+        .avatar-placeholder {
+            background-color: #FFFFFF;
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            margin: auto 0;
+        }
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        .user-name {
+            font: 700 16px/150% 'Poppins', sans-serif;
+            color: #1A1A1A;
+        }
+        .user-stats {
+            display: flex;
+            margin-top: 4px;
+            gap: 12px;
+            font: 600 14px/143% 'Poppins', sans-serif;
+            color: #4A4A4A;
+        }
+        .message-card {
+            border-radius: 12px;
+            background-color: #E8F5E9;
+            align-self: flex-end;
+            display: flex;
+            margin-top: 12px;
+            width: 320px;
+            max-width: 100%;
+            flex-direction: column;
+            padding: 16px;
+        }
+        .sender-avatar {
+            aspect-ratio: 1;
+            object-fit: cover;
+            object-position: center;
+            width: 36px;
+            border-radius: 999px;
+        }
+        .message-title {
+            margin-top: 8px;
+            font: 700 16px/150% 'Poppins', sans-serif;
+            color: #2E7D32;
+        }
+        .message-content {
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            text-overflow: ellipsis;
+            margin-top: 8px;
+            font: 600 14px/20px 'Poppins', sans-serif;
+            color: #1A1A1A;
+            overflow: hidden;
+        }
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        @media (max-width: 991px) {
+            .profile-container {
+                max-width: 100%;
+                flex-wrap: wrap;
+            }
+            .greeting-container {
+                padding-left: 20px;
+            }
+            .main-content {
+                max-width: 100%;
+            }
+            .navigation {
+                flex-wrap: wrap;
+            }
+        }
+
+    </style>
+</head>
+<body>  
+    <div class="popup-overlay" id="namePopup">  
+        <div class="popup-content">  
+            <h2 class="popup-title">What is Your Name?</h2>  
+            <input type="text" id="nameInput" class="name-input" placeholder="Enter your name">  
+            <button class="continue-btn" onclick="setName()">Continue</button>  
+            <a href="#" class="guest-link" onclick="continueAsGuest()">Or, continue as guest</a>  
+        </div>  
+    </div>  
+    <section class="profile-container">  
+        <div class="user-info">  
+            <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/0acb77399f1fadb70c9431b1147cd7e75028c5cab8bb8b421b58f6c395bf2400?apiKey=f6ed2bfac048487e98217617771286c4&&apiKey=f6ed2bfac048487e98217617771286c4" class="profile-image" alt="User profile picture" />  
+            <div class="greeting-container">  
+                <h1 class="greeting-name" id="greetingName">Hi There!</h1>  
+                <p class="greeting-message">Great to see you again!</p>  
+            </div>  
+        </div>  
+        <div class="main-content">  
+            <nav class="navigation">  
+                <a href="#settings" onclick="showSeeMorePopup()" class="nav-item">Settings</a>  
+                <a href="#messages" onclick="showSeeMorePopup()" class="nav-item">Messages</a>  
+                <div class="user-card">  
+                    <div class="avatar-placeholder" aria-hidden="true">
+                        <img class="avatar-placeholder" src="personalization/avatars/guestavatar.jpg" alt="Guest Avatar">
+                    </div>  
+                    <div class="user-details">  
+                        <h2 class="user-name" id="userName">Guest</h2>  
+                        <div class="user-stats">  
+                            <span>Level 21</span>  
+                            <span>Diamond Rank</span>  
+                        </div>  
+                    </div>  
+                </div>  
+            </nav>  
+            <article class="message-card">  
+                <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/14b3e67f75be3de40f92f7362f10bfb850c8338cbfcbec4b4bb1c3c8e1cd13f4?apiKey=f6ed2bfac048487e98217617771286c4&&apiKey=f6ed2bfac048487e98217617771286c4" class="sender-avatar" alt="Mrs. Riley's avatar" />  
+                <h3 class="message-title">Mrs. Riley sent you a message!</h3>  
+                <p class="message-content">"I'm so proud of your progress so far. Keep up the great work."</p>  
+            </article>  
+        </div>  
+    </section>  
+    <script>  
+        // Check for stored name on page load  
+        window.onload = function() {  
+            const storedName = localStorage.getItem('userName');  
+            if (storedName) {  
+                updateName(storedName);  
+                closePopup(); // Close the popup if the name is already set  
+            } else {  
+                document.getElementById('namePopup').style.display = 'flex'; // Show popup if no name stored  
+            }  
+        };  
+  
+        function setName() {  
+            const name = document.getElementById('nameInput').value;  
+            if (name.trim() !== '') {  
+                localStorage.setItem('userName', name); // Store name in Local Storage  
+                updateName(name);  
+                closePopup();  
+            }  
+        }  
+  
+        function continueAsGuest() {  
+            const guestName = 'Guest';  
+            localStorage.setItem('userName', guestName); // Store guest name in Local Storage  
+            updateName(guestName);  
+            closePopup();  
+        }  
+  
+        function updateName(name) {  
+            document.getElementById('greetingName').textContent = `Hi, ${name}`; // Set greeting with name  
+            document.getElementById('userName').textContent = name; // Update user name  
+        }  
+  
+        function closePopup() {  
+            document.getElementById('namePopup').style.display = 'none';  
+        }  
+    </script>  
+<section class="avatar-section">
+    <h2 class="section-title">Avatar</h2>
+    <div class="avatar-container">
+      <div class="avatar-image" role="img" aria-label="Current avatar"></div>
+      <button class="change-avatar-btn">Change Avatar</button>
+    </div>
+    <div class="level-info">
+      <p class="level-number">Level 21</p>
+      <p class="rank">Diamond Rank</p>
+    </div>
+    <button class="see-more-btn">See More</button>
+  </section>
+
+
+  <section class="content-box">
+    <div class="content-inner">
+  <div class="avatar-popup">
+    <div class="avatar-popup-header">
+      <h3 class="avatar-popup-title">Choose Your Avatar</h3>
+      <button class="close-popup">&times;</button>
+    </div>
+    <div class="avatar-options">
+      <div class="avatar-option selected" style="background-image: url('personalization/avatars/puppyavatar.png');" data-avatar="puppy"></div>
+      <div class="avatar-option" style="background-image: url('personalization/avatars/kittyavatar.png');" data-avatar="kitty"></div>
+      <div class="avatar-option" style="background-image: url('personalization/avatars/doeavatar.png');" data-avatar="doe"></div>
+      <div class="avatar-option" style="background-image: url('personalization/avatars/ducklingavatar.png');" data-avatar="duckling"></div>
+      <div class="avatar-option locked"><div class="lock-icon"></div></div>
+      <div class="avatar-option locked"><div class="lock-icon"></div></div>
+      <div class="avatar-option locked"><div class="lock-icon"></div></div>
+      <div class="avatar-option locked"><div class="lock-icon"></div></div>
+      <div class="avatar-option locked"><div class="lock-icon"></div></div>
+      <div class="avatar-option locked"><div class="lock-icon"></div></div>
+      <div class="avatar-option locked"><div class="lock-icon"></div></div>
+      <div class="avatar-option locked"><div class="lock-icon"></div></div>
+      <div class="avatar-option locked"><div class="lock-icon"></div></div>
+      <div class="avatar-option locked"><div class="lock-icon"></div></div>
+      <div class="avatar-option locked"><div class="lock-icon"></div></div>
+      <div class="avatar-option locked"><div class="lock-icon"></div></div>
+    </div>
+  </div>
+  
+  <div class="see-more-popup">
+    <div class="see-more-popup-content">
+      <p>Sorry, this feature is not available yet. Check back soon!</p>
+      <button class="close-see-more-popup">Close</button>
+    </div>
+  </div>
+  
+  <style>
+    .avatar-section {
+      width: 33.33%;
+      max-height: 100vh;
+      overflow-y: auto;
+      background-color: #b3e0ff;
+      padding: 20px;
+      box-sizing: border-box;
+      border-radius: 15px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+  
+    .section-title {
+      color: #333;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+  
+    .avatar-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .avatar-image {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background-image: url('personalization/avatars/puppyavatar.png');
+      background-size: cover;
+      background-position: center;
+      margin-bottom: 20px;
+      border: 3px solid #4a90e2;
+    }
+  
+    .change-avatar-btn {
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+  
+    .change-avatar-btn:hover {
+      background-color: #357abd;
+    }
+  
+    .avatar-popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      width: 80%;
+      max-width: 800px;
+    }
+  
+    .avatar-popup-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+  
+    .avatar-popup-title {
+      font-size: 24px;
+      font-weight: 700;
+    }
+  
+    .close-popup {
+      background: none;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+    }
+  
+    .avatar-options {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+  
+    .avatar-option {
+      width: 100px;
+      height: 100px;
+      border-radius: 10px;
+      background-size: cover;
+      background-position: center;
+      cursor: pointer;
+      border: 3px solid transparent;
+    }
+  
+    .avatar-option.selected {
+      border-color: #4a90e2;
+    }
+  
+    .avatar-option.locked {
+      background-color: #e0e0e0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  
+    .lock-icon {
+      width: 40px;
+      height: 40px;
+      background-image: url('https://fonts.gstatic.com/s/i/materialicons/lock/v12/24px.svg');
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+  
+    .level-info {
+      background-color: #FF4081;
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 20px;
+    }
+  
+    .level-number {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+      margin: 0;
+    }
+  
+    .rank {
+      font-size: 24px;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 5px 0 0;
+    }
+  
+    .see-more-btn {
+      background-color: #66b3ff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 20px;
+      width: 100%;
+      transition: background-color 0.3s;
+    }
+  
+    .see-more-btn:hover {
+      background-color: #3399ff;
+    }
+  
+    .see-more-popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+  
+    .see-more-popup-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+    }
+  
+    .close-see-more-popup {
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+  
+    @media (max-width: 768px) {
+      .avatar-section {
+        width: 100%;
+        max-height: none;
+      }
+  
+      .avatar-popup {
+        width: 90%;
+        padding: 20px;
+      }
+  
+      .avatar-options {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+  
+      .avatar-option {
+        width: 80px;
+        height: 80px;
+      }
+    }
+  </style>
+  
+  <script>
+    const changeAvatarBtn = document.querySelector('.change-avatar-btn');
+    const avatarPopup = document.querySelector('.avatar-popup');
+    const closePopupBtn = document.querySelector('.close-popup');
+    const avatarOptions = document.querySelectorAll('.avatar-option:not(.locked)');
+    const avatarImage = document.querySelector('.avatar-image');
+    const seeMoreBtn = document.querySelector('.see-more-btn');
+    const seeMorePopup = document.querySelector('.see-more-popup');
+    const closeSeeMorePopupBtn = document.querySelector('.close-see-more-popup');
+  
+    changeAvatarBtn.addEventListener('click', () => {
+      avatarPopup.style.display = 'block';
+    });
+  
+    closePopupBtn.addEventListener('click', () => {
+      avatarPopup.style.display = 'none';
+    });
+  
+    avatarOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        avatarOptions.forEach(opt => opt.classList.remove('selected'));
+        option.classList.add('selected');
+        const selectedAvatar = option.getAttribute('data-avatar');
+        avatarImage.style.backgroundImage = `url('personalization/avatars/${selectedAvatar}avatar.png')`;
+        avatarPopup.style.display = 'none';
+      });
+    });
+  
+    seeMoreBtn.addEventListener('click', () => {
+      seeMorePopup.style.display = 'flex';
+    });
+  
+    closeSeeMorePopupBtn.addEventListener('click', () => {
+      seeMorePopup.style.display = 'none';
+    });
+  </script>
+<style>
+    .quizzes-container {
+        background-color: #FFE6E6;
+        display: flex;
+        flex-direction: column;
+        width: 30%;
+        height: 55vh;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow-y: hidden;
+        position: absolute;
+  bottom: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+    }
+    .quizzes-title {
+        color: #333;
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+    .quizzes-content {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    .quiz-card {
+        background-color: #fff;
+        border-radius: 12px;
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        transition: transform 0.3s ease;
+    }
+    .quiz-card:hover {
+        transform: translateY(-5px);
+    }
+    .quiz-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 15px;
+    }
+    .quiz-name {
+        font: 600 18px 'Poppins', sans-serif;
+        color: #1A1A1A;
+    }
+    .other-quizzes-btn {
+        background-color: #FF9999;
+        color: #fff;
+        border: none;
+        border-radius: 12px;
+        padding: 12px 20px;
+        font: 600 16px 'Poppins', sans-serif;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-top: 15px;
+    }
+    .other-quizzes-btn:hover {
+        background-color: #FF8080;
+    }
+    @media (max-width: 991px) {
+        .quizzes-container {
+            width: 100%;
+            height: auto;
+            position: static;
+        }
+    }
+    </style>
+    <section class="quizzes-container">
+        <h2 class="quizzes-title">Quizzes</h2>
+        <div class="quizzes-content">
+            <a href="mathquizscripted.html" class="quiz-card" style="background-color: #46bcff;">
+                <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/ae33b52ac7ac3e1f353c1faf531150b99abea21511c935becccd31a806be2367?apiKey=f6ed2bfac048487e98217617771286c4&&apiKey=f6ed2bfac048487e98217617771286c4" class="quiz-icon" alt="Math quiz icon" />
+                <p class="quiz-name">Learn Math</p>
+            </a>
+            <a href="elaquizscripted.html" class="quiz-card" style="background-color: #ff85ce;">
+                <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/0aa8407b2430d25227672c3335e199c591abb5213586bf20b09e9d621654d852?apiKey=f6ed2bfac048487e98217617771286c4&&apiKey=f6ed2bfac048487e98217617771286c4" class="quiz-icon" alt="English quiz icon" />
+                <p class="quiz-name">Learn ELA</p>
+            </a>
+            <button class="other-quizzes-btn" onclick="showSeeMorePopup()">Other Quizzes</button>
+        </div>
+    </section>
+    <script>
+    function showSeeMorePopup() {
+        const seeMorePopup = document.querySelector('.see-more-popup');
+        if (seeMorePopup) {
+            seeMorePopup.style.display = 'flex';
+        }
+    }
+    </script>
+    <section class="progress-container">
+      <div class="progress-content">
+        <h2 class="section-title">Your Progress</h2>
+        <div class="level-container">
+          <div class="level-card math-level">
+            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/fbdc035c965e3361e6dec686ba78712ac6f9f4e7c1455fef00146efca384c77a?apiKey=f6ed2bfac048487e98217617771286c4&&apiKey=f6ed2bfac048487e98217617771286c4" alt="Math icon" class="level-icon" />
+            <div class="level-info2">
+              <span class="level-label">Math Level</span>
+              <span class="level-number">5</span>
+            </div>
+          </div>
+          <div class="level-card reading-level">
+            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/b6d0aadf0d8c9ef5ca1566d047a60c43e9697022d2299f6155dc4401e57d60c4?apiKey=f6ed2bfac048487e98217617771286c4&&apiKey=f6ed2bfac048487e98217617771286c4" alt="Reading icon" class="level-icon" />
+            <div class="level-info2">
+              <span class="level-label">Reading Level</span>
+              <span class="level-number">6</span>
+            </div>
+          </div>
+        </div>
+        <div class="improvement-card">
+          <span class="improvement-title">Most Improved</span>
+          <span class="improvement-subject">Math</span>
+          <p class="improvement-description">Your score went from 80 to a 95 in your most recent quiz!</p>
+        </div>
+        <button class="see-more-btn2" onclick="showMoreProgress()">See More</button>
+      </div>
+    </section>
+    
+    <style>
+    .progress-container {
+      display: flex;
+      flex-grow: 1;
+      flex-direction: column;
+      color: #000;
+      width: 30%;
+      height: 60vh;
+      position: absolute;
+      bottom: 1%;
+      right: 3%;
+    }
+    .progress-title {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1;
+      color: #333;
+    }
+    .progress-content {
+      border-radius: 12px;
+      background-color: #C8E6C9;
+      display: flex;
+      margin-top: 8px;
+      width: 100%;
+      flex-direction: column;
+      padding: 24px;
+    }
+    .level-container {
+      display: flex;
+      margin-top: 16px;
+      min-height: 144px;
+      width: 100%;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .level-card {
+      border-radius: 12px;
+      display: flex;
+      min-width: 240px;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      flex: 1;
+      flex-basis: 0%;
+      padding: 12px;
+    }
+    .math-level {
+      background-color: #81C784;
+    }
+    .reading-level {
+      background-color: #81C784;
+    }
+    .level-icon {
+      aspect-ratio: 1;
+      object-fit: contain;
+      object-position: center;
+      width: 36px;
+      border-radius: 50%;
+    }
+    .level-info2 {
+      display: flex;
+      margin-top: 8px;
+      flex-direction: column;
+    }
+    .level-label {
+      font-size: 16px;
+      font-weight: 500;
+    }
+    .level-number {
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .improvement-card {
+      border-radius: 12px;
+      background-color: #66BB6A;
+      display: flex;
+      margin-top: 16px;
+      width: 92%;
+      flex-direction: column;
+      font-weight: 500;
+      padding: 12px 24px;
+    }
+    .improvement-title {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    .improvement-subject {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .improvement-description {
+      font-size: 18px;
+      line-height: 1;
+      word-wrap: break-word;
+    }
+    .see-more-btn2 {
+      align-self: stretch;
+      border-radius: 12px;
+      background-color: #4CAF50;
+      margin-top: 16px;
+      width: 100%;
+      font-size: 14px;
+      color: #fff;
+      font-weight: 600;
+      text-align: center;
+      line-height: 1;
+      padding: 16px 32px;
+      border: none;
+      cursor: pointer;
+    }
+    @media (max-width: 991px) {
+      .progress-container {
+        max-width: 100%;
+        margin-top: 32px;
+        width: 100%;
+        height: auto;
+      }
+      .progress-title,
+      .progress-content,
+      .level-container,
+      .improvement-card,
+      .see-more-btn {
+        max-width: 100%;
+      }
+      .progress-content,
+      .improvement-card,
+      .see-more-btn {
+        padding: 20px;
+      }
+    }
+    </style>
+    
+    <script>
+    function showMoreProgress() {
+      const seeMorePopup = document.querySelector('.see-more-popup');
+      if (seeMorePopup) {
+        seeMorePopup.style.display = 'flex';
+      }
+    }
+    </script>
+      </div>
+    </section>
+</body>  
+</html>  

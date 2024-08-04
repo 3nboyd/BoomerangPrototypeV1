@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boomerang Learning - Math Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #E6F0FF;
+            height: 100%;
+        }
+        .quiz-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 27px 64px 80px;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .logo {
+            width: 200px;
+            align-self: start;
+            max-width: 100%;
+        }
+        .progress-bar-container {
+            display: flex;
+            margin-top: 43px;
+            width: 100%;
+            max-width: 1488px;
+            gap: 20px;
+            align-items: center;
+        }
+        .progress-bar {
+            border-radius: 12px;
+            background-color: #fff;
+            flex: 1;
+            height: 12px;
+            position: relative;
+        }
+        .progress-indicator {
+            border-radius: 12px;
+            background-color: #004AAD;
+            height: 100%;
+            position: absolute;
+            width: 0;
+            transition: width 0.5s ease-in-out;
+        }
+        .question-number {
+            color: #1A1A1A;
+            text-align: center;
+            margin-top: 40px;
+            font: 600 36px/1 'Poppins', sans-serif;
+        }
+        .question-type {
+            color: #004AAD;
+            text-align: center;
+            margin-top: 20px;
+            font: 700 48px/1.1 'Poppins', sans-serif;
+        }
+        .math-problem {
+            color: #1A1A1A;
+            text-align: center;
+            margin-top: 40px;
+            font: 700 72px/1 'Poppins', sans-serif;
+        }
+        .answer-options {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .option-button {
+            border-radius: 66px;
+            background-color: #fff;
+            color: #1A1A1A;
+            border: none;
+            width: 150px;
+            height: 150px;
+            font: 700 40px/1.1 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+        .option-button:hover {
+            background-color: #E6F0FF;
+        }
+        .option-button:active {
+            transform: scale(0.95);
+        }
+        .continue-button, .retry-quiz-button {
+            border-radius: 12px;
+            background-color: #004AAD;
+            color: #fff;
+            border: none;
+            padding: 20px 40px;
+            font: 600 28px/1 'Poppins', sans-serif;
+            cursor: pointer;
+            margin-top: 40px;
+            transition: background-color 0.3s;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .continue-button:hover, .retry-quiz-button:hover {
+            background-color: #003C8A;
+        }
+        .feedback {
+            font-size: 32px;
+            font-weight: 600;
+            margin-top: 30px;
+            text-align: center;
+        }
+        .correct {
+            color: #4CAF50;
+        }
+        .incorrect {
+            color: #F44336;
+        }
+        .crossed-out {
+            text-decoration: line-through;
+            opacity: 0.5;
+        }
+        .quiz-intro, .quiz-end {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 80vh;
+        }
+        .quiz-intro h1, .quiz-end h1 {
+            color: #004AAD;
+            font-size: 48px;
+            margin-bottom: 30px;
+        }
+        .quiz-intro p, .quiz-end p {
+            font-size: 24px;
+            margin-bottom: 40px;
+        }
+        .start-quiz-button, .return-dashboard-button {
+         border-radius: 12px;
+         background-color: #004AAD;
+         color: #fff;
+         border: none;
+         padding: 20px 40px;
+         font-size: 24px;
+         cursor: pointer;
+         transition: background-color 0.3s;
+         margin: 0 auto;
+         font: 600 28px/1 'Poppins', sans-serif;
+            margin-top: 40px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .start-quiz-button:hover, .return-dashboard-button:hover {
+            background-color: #003C8A;
+        }
+        .quiz-summary {
+            width: 100%;
+            max-width: 800px;
+            margin-top: 40px;
+        }
+        .summary-item {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .summary-item h3 {
+            margin-top: 0;
+            color: #004AAD;
+            font-size: 28px;
+        }
+        .summary-item p {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+        @keyframes explode {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        .exploding-star {
+            position: absolute;
+            pointer-events: none;
+            animation: explode 0.5s ease-out;
+        }
+        @media (max-width: 768px) {
+            .quiz-container {
+                padding: 20px;
+            }
+            .logo {
+                width: 120px;
+            }
+            .math-problem {
+                font-size: 48px;
+            }
+            .option-button {
+                width: 120px;
+                height: 120px;
+                font-size: 28px;
+            }
+            .quiz-intro h1, .quiz-end h1 {
+                font-size: 36px;
+            }
+            .quiz-intro p, .quiz-end p {
+                font-size: 20px;
+            }
+            .start-quiz-button, .return-dashboard-button, .continue-button, .retry-quiz-button {
+                padding: 15px 30px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <img src="logos/2.png" alt="Boomerang Learning Logo" class="logo" />
+        <div class="progress-bar-container">
+            <div class="progress-bar">
+                <div class="progress-indicator"></div>
+            </div>
+        </div>
+        <div class="quiz-intro">
+            <h1>Onboarding Math Quiz</h1>
+            <p>Welcome to the onboarding math quiz! This short quiz will help us understand your current math skills. Don't worry, it's just for fun and to help us personalize your learning experience.</p>
+            <button class="start-quiz-button">Start Quiz</button>
+        </div>
+        <div class="quiz-content" style="display: none;">
+            <h2 class="question-number">Question #1</h2>
+            <h3 class="question-type">Multiply</h3>
+            <p class="math-problem">6 x 2 =</p>
+            <div class="answer-options">
+                <button class="option-button">8</button>
+                <button class="option-button">12</button>
+                <button class="option-button">4</button>
+                <button class="option-button">6</button>
+            </div>
+            <div class="feedback"></div>
+            <button class="continue-button" style="display: none;">Continue</button>
+        </div>
+        <div class="quiz-end" style="display: none;">
+            <h1>Quiz Completed!</h1>
+            <div class="quiz-summary"></div>
+            <button class="return-dashboard-button">Return to Dashboard</button>
+            <button class="retry-quiz-button">Retry Quiz</button>
+        </div>
+    </div>
+    <script>
+        const quizQuestions = [
+            {
+                type: "Multiply",
+                problem: "6 x 2 =",
+                options: ["8", "12", "4", "6"],
+                correctAnswer: "12",
+                explanation: "When multiplying 6 by 2, you're adding 6 to itself twice: 6 + 6 = 12."
+            },
+            {
+                type: "Divide",
+                problem: "15 ÷ 3 =",
+                options: ["3", "5", "7", "4"],
+                correctAnswer: "5",
+                explanation: "When dividing 15 by 3, you're asking how many groups of 3 make 15. The answer is 5 because 3 x 5 = 15."
+            },
+            {
+                type: "Add",
+                problem: "23 + 17 =",
+                options: ["30", "40", "50", "60"],
+                correctAnswer: "40",
+                explanation: "To add 23 and 17, you can first add 20 + 10 = 30, then add the remaining 3 + 7 = 10. So, 30 + 10 = 40."
+            },
+            {
+                type: "Subtract",
+                problem: "45 - 18 =",
+                options: ["27", "28", "26", "29"],
+                correctAnswer: "27",
+                explanation: "To subtract 18 from 45, you can first subtract 10 from 45 to get 35, then subtract the remaining 8 to get 27."
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let firstAttempts = [];
+
+        const quizIntro = document.querySelector('.quiz-intro');
+        const quizContent = document.querySelector('.quiz-content');
+        const quizEnd = document.querySelector('.quiz-end');
+        const startQuizButton = document.querySelector('.start-quiz-button');
+        const questionNumber = document.querySelector('.question-number');
+        const questionType = document.querySelector('.question-type');
+        const mathProblem = document.querySelector('.math-problem');
+        const answerOptions = document.querySelector('.answer-options');
+        const feedbackElement = document.querySelector('.feedback');
+        const continueButton = document.querySelector('.continue-button');
+        const returnDashboardButton = document.querySelector('.return-dashboard-button');
+        const retryQuizButton = document.querySelector('.retry-quiz-button');
+        const progressIndicator = document.querySelector('.progress-indicator');
+
+        startQuizButton.addEventListener('click', startQuiz);
+        continueButton.addEventListener('click', loadNextQuestion);
+        returnDashboardButton.addEventListener('click', () => {
+            window.location.href = 'studentdashboardscripted.html';
+        });
+        retryQuizButton.addEventListener('click', () => {
+            location.reload();
+        });
+
+        function startQuiz() {
+            quizIntro.style.display = 'none';
+            quizContent.style.display = 'block';
+            loadQuestion(currentQuestionIndex);
+        }
+
+        function loadQuestion(index) {
+            const question = quizQuestions[index];
+            questionNumber.textContent = `Question #${index + 1}`;
+            questionType.textContent = question.type;
+            mathProblem.textContent = question.problem;
+            answerOptions.innerHTML = '';
+            feedbackElement.textContent = '';
+            feedbackElement.className = 'feedback';
+            continueButton.style.display = 'none';
+
+            question.options.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'option-button';
+                button.textContent = option;
+                button.addEventListener('click', () => checkAnswer(option));
+                answerOptions.appendChild(button);
+            });
+
+            updateProgressBar();
+        }
+
+        function checkAnswer(selectedAnswer) {
+    const currentQuestion = quizQuestions[currentQuestionIndex];
+    const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
+
+    if (isCorrect) {
+        feedbackElement.textContent = 'Correct!';
+        feedbackElement.classList.remove('incorrect'); // Add this line
+        feedbackElement.classList.add('correct');
+        disableOptions();
+        if (firstAttempts[currentQuestionIndex] === undefined) {
+            firstAttempts[currentQuestionIndex] = true;
+        }
+        userAnswers[currentQuestionIndex] = selectedAnswer;
+        continueButton.style.display = 'block';
+        createStarExplosion(event);
+    } else {
+        feedbackElement.textContent = 'Incorrect, please try again.';
+        feedbackElement.classList.add('incorrect');
+        const selectedButton = Array.from(answerOptions.children).find(button => button.textContent === selectedAnswer);
+        selectedButton.classList.add('crossed-out');
+        selectedButton.disabled = true;
+        if (firstAttempts[currentQuestionIndex] === undefined) {
+            firstAttempts[currentQuestionIndex] = false;
+        }
+    }
+}
+
+        function disableOptions() {
+            const options = answerOptions.children;
+            for (let option of options) {
+                option.disabled = true;
+            }
+        }
+
+        function loadNextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizQuestions.length) {
+                loadQuestion(currentQuestionIndex);
+            } else {
+                showQuizEnd();
+            }
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentQuestionIndex + 1) / quizQuestions.length) * 100;
+            progressIndicator.style.width = `${progress}%`;
+        }
+
+        function showQuizEnd() {
+            quizContent.style.display = 'none';
+            quizEnd.style.display = 'block';
+            const quizSummary = document.querySelector('.quiz-summary');
+            quizSummary.innerHTML = '';
+
+            quizQuestions.forEach((question, index) => {
+                const summaryItem = document.createElement('div');
+                summaryItem.className = 'summary-item';
+                const isCorrect = firstAttempts[index];
+                summaryItem.innerHTML = `
+                    <h3>${question.type}</h3>
+                    <p>${question.problem} ${userAnswers[index]}</p>
+                    <p>${isCorrect ? 'Correct on first try!' : 'Incorrect on first try.'}</p>
+                    ${!isCorrect ? `<p>Explanation: ${question.explanation}</p>` : ''}
+                `;
+                quizSummary.appendChild(summaryItem);
+            });
+        }
+        function createStarExplosion(event) {
+    const colors = ['#FFD700', '#FFA500', '#FF4500', '#8A2BE2', '#00FF00'];
+    for (let i = 0; i < 30; i++) {
+        const star = document.createElement('div');
+        star.className = 'exploding-star';
+        star.style.left = `${event.clientX}px`;
+        star.style.top = `${event.clientY}px`;
+        star.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        star.style.width = `${Math.random() * 10 + 5}px`;
+        star.style.height = star.style.width;
+        star.style.transform = `translate(${(Math.random() - 0.5) * 200}px, ${(Math.random() - 0.5) * 200}px)`;
+        document.body.appendChild(star);
+        setTimeout(() => {
+            star.remove();
+        }, 500);
+    }
+}
+    </script>
+</body>
+</html>

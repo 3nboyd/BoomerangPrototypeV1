@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boomerang Learning - Color Selection</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+        overflow: hidden;
+        height: 100%;
+    }
+    .color-selection-container {
+        background-color: #F0E6F5;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 27px 64px 80px;
+        min-height: 100vh;
+        box-sizing: border-box;
+    }
+    .logo {
+        width: 200px;
+        align-self: start;
+        max-width: 100%;
+    }
+    .progress-bar-container {
+        display: flex;
+        margin-top: 43px;
+        width: 100%;
+        max-width: 1488px;
+        gap: 20px;
+        align-items: center;
+    }
+    .back-arrow {
+        width: 24px;
+        cursor: pointer;
+    }
+    .progress-bar {
+        border-radius: 12px;
+        background-color: #fff;
+        flex: 1;
+        height: 12px;
+        position: relative;
+    }
+    .progress-indicator {
+        border-radius: 12px;
+        background-color: #004AAD;
+        height: 100%;
+        position: absolute;
+    }
+    .question-title {
+        color: #1A1A1A;
+        text-align: center;
+        margin-top: 83px;
+        font: 700 40px/110% 'Poppins', sans-serif;
+    }
+    .color-options {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        margin-top: 70px;
+    }
+    .color-option {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+    }
+    .color-circle {
+        border-radius: 50%;
+        width: 212px;
+        height: 212px;
+        margin-bottom: 16px;
+    }
+    .color-name {
+        font: 600 24px/133% 'Poppins', sans-serif;
+        text-align: center;
+    }
+    .continue-button {
+        border-radius: 12px;
+        background-color: #004AAD;
+        margin-top: auto;
+        width: 100%;
+        max-width: 881px;
+        color: #FFFFFF;
+        text-align: center;
+        padding: 16px 32px;
+        font: 600 24px/133% 'Poppins', sans-serif;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+    }
+    .continue-button:hover {
+        background-color: #003C8A;
+    }
+    @media (max-width: 768px) {
+        .color-selection-container {
+            padding: 20px;
+            justify-content: space-between;
+        }
+        .logo {
+            width: 120px;
+            align-self: flex-end;
+        }
+        .progress-bar-container {
+            margin-top: 20px;
+        }
+        .question-title {
+            font-size: 32px;
+            margin-top: 20px;
+        }
+        .color-options {
+            flex-direction: column;
+            margin-top: 20px;
+            width: 100%;
+        }
+        .color-option {
+            flex-direction: row;
+            justify-content: flex-start;
+            width: 100%;
+            padding: 5px 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease;
+        }
+        .color-option:hover, .color-option.selected {
+            background-color: #E6F0FF;
+            margin: 0 -20px;
+            padding: 5px 20px;
+        }
+        .color-circle {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 0;
+            margin-right: 16px;
+        }
+        .color-name {
+            font-size: 16px;
+        }
+        .continue-button {
+            margin-top: 20px;
+            padding: 12px 20px;
+            font-size: 20px;
+        }
+    }
+</style>
+</head>
+<body>
+<section class="color-selection-container">
+    <img src="logos/2.png" alt="Boomerang Learning Logo" class="logo" />
+    <div class="progress-bar-container">
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/cce4c41a0b615a606e076104a5e270262b12415eb5a2e5d66aa816aced5b5c1a?apiKey=d7daa8b245d6453db44db71c08c14657&&apiKey=d7daa8b245d6453db44db71c08c14657" alt="Back" class="back-arrow" onclick="window.location.href='index.html';" />
+        <div class="progress-bar">
+            <div class="progress-indicator"></div>
+        </div>
+    </div>
+    <h2 class="question-title">Pick Your Favorite Color!</h2>
+    <div class="color-options">
+        <div class="color-option" data-color="blue">
+            <div class="color-circle" style="background-color: #004AAD;"></div>
+            <span class="color-name">Boomerang Blue</span>
+        </div>
+        <div class="color-option" data-color="green">
+            <div class="color-circle" style="background-color: #4CAF50;"></div>
+            <span class="color-name">Curious Clover</span>
+        </div>
+        <div class="color-option" data-color="pink">
+            <div class="color-circle" style="background-color: #FF4081;"></div>
+            <span class="color-name">Playful Peony</span>
+        </div>
+        <div class="color-option" data-color="white">
+            <div class="color-circle" style="background-color: #FFFFFF; border: 2px solid #000000;"></div>
+            <span class="color-name">Default</span>
+        </div>
+    </div>
+    <a href="#" class="continue-button" id="continueButton">Continue</a>
+</section>
+<script>
+    let selectedColor = '';
+    const colorOptions = document.querySelectorAll('.color-option');
+    const continueButton = document.getElementById('continueButton');
+
+    function updateProgressBar() {
+        const progressIndicator = document.querySelector('.progress-indicator');
+        const currentPage = 1;
+        const totalPages = 6;
+        const progress = (currentPage / totalPages) * 100;
+        progressIndicator.style.width = `${progress}%`;
+    }
+
+    updateProgressBar();
+
+    colorOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            selectedColor = this.dataset.color;
+            colorOptions.forEach(opt => {
+                opt.style.opacity = '0.7';
+                opt.classList.remove('selected');
+            });
+            this.style.opacity = '1';
+            this.classList.add('selected');
+            applyColorScheme(selectedColor);
+            continueButton.href = 'favoriteanimal.html';
+        });
+    });
+
+    function applyColorScheme(color) {
+        const container = document.querySelector('.color-selection-container');
+        const title = document.querySelector('.question-title');
+        const button = document.querySelector('.continue-button');
+
+        switch(color) {
+            case 'blue':
+                container.style.backgroundColor = '#E6F0FF';
+                title.style.color = '#004AAD';
+                button.style.backgroundColor = '#004AAD';
+                break;
+            case 'green':
+                container.style.backgroundColor = '#E8F5E9';
+                title.style.color = '#2E7D32';
+                button.style.backgroundColor = '#4CAF50';
+                break;
+            case 'pink':
+                container.style.backgroundColor = '#FCE4EC';
+                title.style.color = '#FF4081';
+                button.style.backgroundColor = '#FF4081';
+                break;
+            case 'white':
+            default:
+                container.style.backgroundColor = '#F0E6F5';
+                title.style.color = '#1A1A1A';
+                button.style.backgroundColor = '#004AAD';
+                break;
+        }
+    }
+
+    continueButton.addEventListener('click', function(event) {
+        if (!selectedColor) {
+            event.preventDefault();
+            alert('Please select a color before continuing.');
+        } else {
+            saveColorPreference(selectedColor);
+        }
+    });
+
+    function saveColorPreference(color) {
+        fetch('https://insertwhateverazureapihere.azurewebsites.net/api/saveColorPreference', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ color: color }),
+        })
+        .then(response => response.json())
+        .then(data => console.log('Success:', data))
+        .catch((error) => console.error('Error:', error));
+    }
+</script>
+</body>
+</html>

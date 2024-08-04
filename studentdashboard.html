@@ -1,0 +1,452 @@
+<style>
+    .dashboard-container { border-radius: 24px; background-color: #fff; display: flex; flex-direction: column; padding: 33px 64px 71px; }
+    @media (max-width: 991px) { .dashboard-container { padding: 0 20px; } }
+    .header-section { display: flex; gap: 20px; color: #000; justify-content: space-between; }
+    @media (max-width: 991px) { .header-section { max-width: 100%; flex-wrap: wrap; } }
+    .user-info { align-self: start; display: flex; flex-direction: column; }
+    .user-avatar { aspect-ratio: 1.96; object-fit: auto; object-position: center; width: 152px; max-width: 100%; }
+    .user-greeting { margin-top: 62px; font: 700 40px/110% Noto Sans, sans-serif; }
+    @media (max-width: 991px) { .user-greeting { margin-top: 40px; } }
+    .user-subgreeting { margin-top: 7px; font: 600 30px/147% Noto Sans, sans-serif; }
+    .header-nav { display: flex; flex-direction: column; }
+    @media (max-width: 991px) { .header-nav { max-width: 100%; } }
+    .nav-items { align-items: center; display: flex; gap: 20px; justify-content: space-between; }
+    @media (max-width: 991px) { .nav-items { flex-wrap: wrap; } }
+    .nav-item { text-align: center; align-self: stretch; margin: auto 0; font: 700 16px/150% Noto Sans, sans-serif; }
+    .user-profile { border-radius: 12px; background-color: #d2d2d2; align-self: stretch; display: flex; gap: 16px; padding: 12px; }
+    .profile-avatar { background-color: #fff; border-radius: 50%; width: 42px; height: 42px; margin: auto 0; }
+    .profile-info { justify-content: center; display: flex; flex-direction: column; flex: 1; }
+    .profile-name { font: 700 16px/150% Noto Sans, sans-serif; }
+    .profile-stats { display: flex; margin-top: 4px; gap: 12px; font-size: 14px; font-weight: 600; line-height: 143%; }
+    .profile-stat { font-family: Noto Sans, sans-serif; }
+    .message-notification { border-radius: 12px; background-color: #f2f2f2; align-self: end; display: flex; margin-top: 12px; width: 320px; max-width: 100%; flex-direction: column; justify-content: center; padding: 16px; }
+    .notification-content { justify-content: center; display: flex; flex-direction: column; }
+    .notification-icon { aspect-ratio: 1; object-fit: auto; object-position: center; width: 36px; }
+    .notification-title { margin-top: 8px; font: 700 16px/150% Noto Sans, sans-serif; }
+    .notification-message { -webkit-box-orient: vertical; -webkit-line-clamp: 2; text-overflow: ellipsis; margin-top: 8px; font: 600 14px/20px Noto Sans, sans-serif; }
+    .main-content { margin-top: 34px; }
+    @media (max-width: 991px) { .main-content { max-width: 100%; } }
+    .content-grid { gap: 20px; display: flex; }
+    @media (max-width: 991px) { .content-grid { flex-direction: column; align-items: stretch; gap: 0px; } }
+    .avatar-section { display: flex; flex-direction: column; line-height: normal; width: 33%; margin-left: 0px; }
+    @media (max-width: 991px) { .avatar-section { width: 100%; } }
+    .avatar-container { display: flex; flex-grow: 1; flex-direction: column; line-height: 133%; }
+    @media (max-width: 991px) { .avatar-container { max-width: 100%; margin-top: 32px; } }
+    .avatar-title { color: #000; font: 700 24px Noto Sans, sans-serif; }
+    @media (max-width: 991px) { .avatar-title { max-width: 100%; } }
+    .avatar-content { border-radius: 12px; background-color: #cfcfcf; display: flex; margin-top: 8px; flex-direction: column; align-items: center; color: #fff; padding: 27px 24px 80px; }
+    @media (max-width: 991px) { .avatar-content { max-width: 100%; padding: 0 20px; } }
+    .avatar-unlock { border-radius: 12px; background-color: #393939; padding: 12px 24px; font: 500 24px Noto Sans, sans-serif; }
+    @media (max-width: 991px) { .avatar-unlock { padding: 0 20px; } }
+    .avatar-image { border-radius: 2177.82px; background-color: #fff; margin-top: 52px; width: 387px; height: 387px; aspect-ratio: 1; }
+    @media (max-width: 991px) { .avatar-image { margin-top: 40px; } }
+    .avatar-update { border-radius: 12px; background-color: #494949; margin-top: 51px; width: 330px; max-width: 100%; text-align: center; padding: 16px 32px; font: 600 14px/143% Noto Sans, sans-serif; }
+    @media (max-width: 991px) { .avatar-update { margin-top: 40px; padding: 0 20px; } }
+    .avatar-stats { border-radius: 8px; background-color: #eee; align-self: stretch; display: flex; margin-top: 96px; flex-direction: column; color: #000; padding: 8px 12px; }
+    @media (max-width: 991px) { .avatar-stats { max-width: 100%; margin-top: 40px; } }
+    .avatar-level { font: 600 18px Noto Sans, sans-serif; }
+    @media (max-width: 991px) { .avatar-level { max-width: 100%; } }
+    .avatar-rank { font: 700 24px Noto Sans, sans-serif; }
+    @media (max-width: 991px) { .avatar-rank { max-width: 100%; } }
+    .avatar-see-more { border-radius: 12px; background-color: #494949; align-self: stretch; text-align: center; margin: 28px 0 5px; padding: 16px 32px; font: 600 14px/143% Noto Sans, sans-serif; }
+    @media (max-width: 991px) { .avatar-see-more { max-width: 100%; padding: 0 20px; } }
+    .main-section { display: flex; flex-direction: column; line-height: normal; width: 67%; margin-left: 20px; }
+    @media (max-width: 991px) { .main-section { width: 100%; } }
+    .main-content-wrapper { display: flex; flex-grow: 1; flex-direction: column; }
+    @media (max-width: 991px) { .main-content-wrapper { max-width: 100%; margin-top: 32px; } }
+    .content-grid-inner { }
+    @media (max-width: 991px) { .content-grid-inner { max-width: 100%; } }
+    .inner-grid { gap: 20px; display: flex; }
+    @media (max-width: 991px) { .inner-grid { flex-direction: column; align-items: stretch; gap: 0px; } }
+    .quizzes-section { display: flex; flex-direction: column; line-height: normal; width: 50%; margin-left: 0px; }
+    @media (max-width: 991px) { .quizzes-section { width: 100%; } }
+    .quizzes-container { display: flex; flex-grow: 1; flex-direction: column; color: #000; }
+    @media (max-width: 991px) { .quizzes-container { max-width: 100%; margin-top: 32px; } }
+    .quizzes-title { font: 700 24px/133% Noto Sans, sans-serif; }
+    @media (max-width: 991px) { .quizzes-title { max-width: 100%; } }
+    .quizzes-content { border-radius: 12px; background-color: #cfcfcf; display: flex; margin-top: 8px; flex-direction: column; padding: 24px; }
+    @media (max-width: 991px) { .quizzes-content { max-width: 100%; padding: 0 20px; } }
+    .quiz-item { border-radius: 12px; background-color: #fff; display: flex; flex-direction: column; justify-content: center; }
+    @media (max-width: 991px) { .quiz-item { max-width: 100%; } }
+    .quiz-info { align-items: start; border-radius: 8px; background-color: #fff; display: flex; flex-direction: column; padding: 8px 12px; }
+    @media (max-width: 991px) { .quiz-info { max-width: 100%; padding-right: 20px; } }
+    .quiz-title { display: flex; gap: 4px; font-size: 16px; font-weight: 500; line-height: 150%; }
+    .quiz-icon { aspect-ratio: 1; object-fit: auto; object-position: center; width: 36px; }
+    .quiz-name { font-family: Noto Sans, sans-serif; margin: auto 0; }
+    .quiz-points { font: 700 24px/133% Noto Sans, sans-serif; }
+    .quizzes-see-more { border-radius: 12px; background-color: #494949; margin-top: 16px; color: #fff; text-align: center; padding: 16px 32px; font: 600 14px/143% Noto Sans, sans-serif; }
+    @media (max-width: 991px) { .quizzes-see-more { max-width: 100%; padding: 0 20px; } }
+    .progress-section { display: flex; flex-direction: column; line-height: normal; width: 50%; margin-left: 20px; }
+    @media (max-width: 991px) { .progress-section { width: 100%; } }
+    .progress-container { display: flex; flex-grow: 1; flex-direction: column; }
+    @media (max-width: 991px) { .progress-container { max-width: 100%; margin-top: 32px; } }
+    .progress-title { color: #000; font: 700 24px/133% Noto Sans, sans-serif; }
+    @media (max-width: 991px) { .progress-title { max-width: 100%; } }
+    .progress-content { border-radius: 12px; background-color: #cfcfcf; display: flex; margin-top: 8px; flex-direction: column; padding: 24px; }
+    @media (max-width: 991px) { .progress-content { max-width: 100%; padding: 0 20px; } }
+    .progress-stats { display: flex; gap: 20px; color: #000; }
+    @media (max-width: 991px) { .progress-stats { max-width: 100%; flex-wrap: wrap; } }
+    .stat-item { align-items: start; border-radius: 8px; background-color: #eee; display: flex; flex-direction: column; flex: 1; padding: 8px 12px; }
+    @media (max-width: 991px) { .stat-item { padding-right: 20px; } }
+    .stat-title { display: flex; gap: 4px; font-size: 16px; font-weight: 500; line-height: 150%; }
+    .stat-icon { aspect-ratio: 1; object-fit: auto; object-position: center; width: 24px; }
+    .stat-name { font-family: Noto Sans, sans-serif; }
+    .stat-value { font: 700 30px/147% Noto Sans, sans-serif; }
+    .subject-levels { margin-top: 16px; }
+    @media (max-width: 991px) { .subject-levels { max-width: 100%; } }
+    .levels-grid { gap: 20px; display: flex; }
+    @media (max-width: 991px) { .levels-grid { flex-direction: column; align-items: stretch; gap: 0px; } }
+    .subject-level { display: flex; flex-direction: column; line-height: normal; width: 50%; margin-left: 0px; }
+    @media (max-width: 991px) { .subject-level { width: 100%; } }
+    .level-item { justify-content: center; align-items: start; border-radius: 12px; background-color: #fff; display: flex; flex-grow: 1; flex-direction: column; color: #000; width: 100%; padding: 16px; }
+    @media (max-width: 991px) { .level-item { margin-top: 32px; padding-right: 20px; } }
+    .level-icon { aspect-ratio: 1; object-fit: auto; object-position: center; width: 36px; }
+    .level-info { justify-content: center; display: flex; margin-top: 8px; flex-direction: column; }
+    .level-name { font: 500 16px/150% Noto Sans, sans-serif; }
+    .level-value { font: 700 30px/147% Noto Sans, sans-serif; }
+    .most-improved { justify-content: center; border-radius: 12px; background-color: #fff; display: flex; margin-top: 16px; flex-direction: column; color: #000; font-weight: 500; padding: 12px 24px; }
+    @media (max-width: 991px) { .most-improved { max-width: 100%; padding: 0 20px; } }
+    .improved-title { font: 16px/150% Noto Sans, sans-serif; }
+    @media (max-width: 991px) { .improved-title { max-width: 100%; } }
+    .improved-subject { font: 700 30px/147% Noto Sans, sans-serif; }
+    @media (max-width: 991px) { .improved-subject { max-width: 100%; } }
+    .improved-description { font: 24px/32px Noto Sans, sans-serif; }
+    @media (max-width: 991px) { .improved-description { max-width: 100%; } }
+    .progress-see-more { border-radius: 12px; background-color: #494949; margin-top: 16px; color: #fff; text-align: center; padding: 16px 32px; font: 600 14px/143% Noto Sans, sans-serif; }
+    @media (max-width: 991px) { .progress-see-more { max-width: 100%; padding: 0 20px; } }
+    .badges-class-section { margin-top: 36px; }
+    @media (max-width: 991px) { .badges-class-section { max-width: 100%; } }
+    .badges-class-grid { gap: 20px; display: flex; }
+    @media (max-width: 991px) { .badges-class-grid { flex-direction: column; align-items: stretch; gap: 0px; } }
+    .badges-column { display: flex; flex-direction: column; line-height: normal; width: 50%; margin-left: 0px; }
+    @media (max-width: 991px) { .badges-column { width: 100%; } }
+    .badges-container { display: flex; flex-grow: 1; flex-direction: column; }
+    @media (max-width: 991px) { .badges-container { max-width: 100%; margin-top: 32px; } }
+    .badges-title { color: #000; font: 700 24px/133% Noto Sans, sans-serif; }
+    @media (max-width: 991px) { .badges-title { max-width: 100%; } }
+    .badges-content { border-radius: 12px; background-color: #cfcfcf; display: flex; margin-top: 8px; flex-direction: column; padding: 24px; }
+    @media (max-width: 991px) { .badges-content { max-width: 100%; padding: 0 20px; } }
+    .badges-message { justify-content: center; border-radius: 8px; background-color: #eee; display: flex; flex-direction: column; color: #000; padding: 8px 12px; }
+    @media (max-width: 991px) { .badges-message { max-width: 100%; } }
+    .badges-congrats { font: 600 16px/150% Noto Sans, sans-serif; }
+    @media (max-width: 991px) { .badges-congrats { max-width: 100%; } }
+    .badges-count { font: 700 18px/133% Noto Sans, sans-serif; }
+    @media (max-width: 991px) { .badges-count { max-width: 100%; } }
+    .badges-grid { margin-top: 24px; }
+    @media (max-width: 991px) { .badges-grid { max-width: 100%; } }
+    .badges-row { gap: 20px; display: flex; }
+    @media (max-width: 991px) { .badges-row { flex-direction: column; align-items: stretch; gap: 0px; } }
+    .badge-item { display: flex; flex-direction: column; line-height: normal; width: 25%; margin-left: 0px; }
+    @media (max-width: 991px) { .badge-item { width: 100%; } }
+    .badge-container { justify-content: center; border-radius: 12px; background-color: #fff; display: flex; flex-direction: column; font-size: 14px; color: #000; font-weight: 600; line-height: 143%; width: 114px; height: 114px; margin: 0 auto; padding: 0 12px; }
+    @media (max-width: 991px) { .badge-container { margin-top: 36px; } }
+    .badge-icon { border-radius: 639.36px; background-color: #e6e6e6; align-self: center; width: 64px; height: 64px; }
+    .badge-name { font-family: Noto Sans, sans-serif; margin-top: 8px; }
+    .badges-see-more { border-radius: 12px; background-color: #494949; margin-top: 24px; color: #fff; text-align: center; padding: 16px 32px; font: 600 14px/143% Noto Sans, sans-serif; }
+    @media (max-width: 991px) { .badges-see-more { max-width: 100%; padding: 0 20px; } }
+    .class-progress-column { display: flex; flex-direction: column; line-height: normal; width: 50%; margin-left: 20px; }
+    @media (max-width: 991px) { .class-progress-column { width: 100%; } }
+    .class-progress-container { display: flex; flex-grow: 1; flex-direction: column; color: #000; }
+    @media (max-width: 991px) { .class-progress-container { max-width: 100%; margin-top: 32px; } }
+    .class-progress-title { font: 700 24px/133% Noto Sans, sans-serif; }
+    @media (max-width: 991px) { .class-progress-title { max-width: 100%; } }
+    .class-progress-content { border-radius: 12px; background-color: #cfcfcf; display: flex; margin-top: 8px; flex-direction: column; padding: 24px; }
+    @media (max-width: 991px) { .class-progress-content { max-width: 100%; padding: 0 20px; } }
+    .class-stats { display: flex; gap: 20px; }
+    @media (max-width: 991px) { .class-stats { max-width: 100%; flex-wrap: wrap; } }
+    .class-stat-item { align-items: start; border-radius: 8px; background-color: #eee; display: flex; flex-direction: column; flex: 1; padding: 8px 12px; }
+    @media (max-width: 991px) { .class-stat-item { padding-right: 20px; } }
+    .class-stat-title { display: flex; gap: 4px; font-size: 16px; font-weight: 500; line-height: 150%; }
+    .class-stat-icon { aspect-ratio: 1; object-fit: auto; object-position: center; width: 24px; }
+    .class-stat-name { font-family: Noto Sans, sans-serif; }
+    .class-stat-value { font: 700 30px/147% Noto Sans, sans-serif; }
+    .class-progress-see-more { border-radius: 12px; background-color: #494949; margin-top: 24px; color: #fff; text-align: center; padding: 16px 32px; font: 600 14px/143% Noto Sans, sans-serif; }
+    @media (max-width: 991px) { .class-progress-see-more { max-width: 100%; padding: 0 20px; } }
+    </style>
+    
+    <section class="dashboard-container">
+      <header class="header-section">
+        <div class="user-info">
+          <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/b8b02336c139d7930e7e2cd52804440104e3a7e48c941924c0387085d342d0f4?apiKey=d7daa8b245d6453db44db71c08c14657&&apiKey=d7daa8b245d6453db44db71c08c14657" class="user-avatar" alt="User Avatar" />
+          <h1 class="user-greeting">Hi, Lris Kau</h1>
+          <p class="user-subgreeting">Great to see you again!</p>
+        </div>
+        <nav class="header-nav">
+          <div class="nav-items">
+            <a href="#settings" class="nav-item">Settings</a>
+            <a href="#messages" class="nav-item">Messages</a>
+            <div class="user-profile">
+              <div class="profile-avatar"></div>
+              <div class="profile-info">
+                <h2 class="profile-name">Lebonbon James</h2>
+                <div class="profile-stats">
+                  <span class="profile-stat">Level 21</span>
+                  <span class="profile-stat">Diamond Rank</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="message-notification">
+            <div class="notification-content">
+              <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/c4a604559901c366d351321396f3517097e0eab790b2feb6857f191e3eeac8a2?apiKey=d7daa8b245d6453db44db71c08c14657&&apiKey=d7daa8b245d6453db44db71c08c14657" class="notification-icon" alt="Notification Icon" />
+              <h3 class="notification-title">Mr. Business sent you a message!</h3>
+              <p class="notification-message">"You are a disgrace to your class, your school, and most importantly, yourself. Keep up the great work!"</p>
+            </div>
+          </div>
+        </nav>
+      </header>
+      
+      <main class="main-content">
+        <div class="content-grid">
+          <section class="avatar-section">
+            <div class="avatar-container">
+              <h2 class="avatar-title">Avatar</h2>
+              <div class="avatar-content">
+                <p class="avatar-unlock">You unlocked a new animal!</p>
+                <div class="avatar-image"></div>
+                <button class="avatar-update">Update Avatar</button>
+                <div class="avatar-stats">
+                  <span class="avatar-level">Level 21</span>
+                  <span class="avatar-rank">Diamond Rank</span>
+                </div>
+                <button class="avatar-see-more">See More</button>
+              </div>
+            </div>
+          </section>
+          
+          <section class="main-section">
+            <div class="main-content-wrapper">
+              <div class="content-grid-inner">
+                <div class="inner-grid">
+                  <div class="quizzes-section">
+                    <div class="quizzes-container">
+                      <h2 class="quizzes-title">Quizzes</h2>
+                      <div class="quizzes-content">
+                        <div class="quiz-item">
+                          <div class="quiz-info">
+                            <div class="quiz-title">
+                              <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/b6d0aadf0d8c9ef5ca1566d047a60c43e9697022d2299f6155dc4401e57d60c4?apiKey=d7daa8b245d6453db44db71c08c14657&&apiKey=d7daa8b245d6453db44db71c08c14657" class="quiz-icon" alt="Reading Quiz Icon" />
+                              <span class="quiz-name">Next up: Reading Quiz 5</span>
+                            </div>
+                            <span class="quiz-points">550 Points</span>
+                          </div>
+                        </div>
+                        <div class="quiz-item">
+                          <div class="quiz-info">
+                            <div class="quiz-title">
+                              <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/fbdc035c965e3361e6dec686ba78712ac6f9f4e7c1455fef00146efca384c77a?apiKey=d7daa8b245d6453db44db71c08c14657&&apiKey=d7daa8b245d6453db44db71c08c14657" class="quiz-icon" alt="Math Quiz Icon" />
+                              <span class="quiz-name">Next up: Math Quiz 5</span>
+                            </div>
+                            <span class="quiz-points">500 Points</span>
+                          </div>
+                        </div>
+                        <div class="quiz-item">
+                          <div class="quiz-info">
+                            <div class="quiz-title">
+                              <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/fbdc035c965e3361e6dec686ba78712ac6f9f4e7c1455fef00146efca384c77a?apiKey=d7daa8b245d6453db44db71c08c14657&&apiKey=d7daa8b245d6453db44db71c08c14657" class="quiz-icon" alt="Math Quiz Icon" />
+                              <span class="quiz-name">Next up: Math Quiz 6</span>
+                            </div>
+                            <span class="quiz-points">500 Points</span>
+                          </div>
+                        </div>
+                        <div class="quiz-item">
+                          <div class="quiz-info">
+                            <div class="quiz-title">
+                              <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/fbdc035c965e3361e6dec686ba78712ac6f9f4e7c1455fef00146efca384c77a?apiKey=d7daa8b245d6453db44db71c08c14657&&apiKey=d7daa8b245d6453db44db71c08c14657" class="quiz-icon" alt="Math Quiz Icon" />
+                              <span class="quiz-name">Next up: Math Quiz 7</span>
+                            </div>
+                            <span class="quiz-points">500 Points</span>
+                          </div>
+                        </div>
+                        <button class="quizzes-see-more">See More</button>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="progress-section">
+                    <div class="progress-container">
+                      <h2 class="progress-title">Your Progress</h2>
+                      <div class="progress-content">
+                        <div class="progress-stats">
+                          <div class="stat-item">
+                            <div class="stat-title">
+                              <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/95e4eb8e186aa04c2d5651c6aa5201f79998bbfc9cdbb1ca186ad1e09c807b88?apiKey=d7daa8b245d6453db44db71c08c14657&&apiKey=d7daa8b245d6453db44db71c08c14657" class="stat-icon" alt="Total Points Icon" />
+                              <span class="stat-name">Total Points</span>
+                            </div>
+                            <span class="stat-value">3,000 Points</span>
+                          </div>
+                          <div class="stat-item">
+                            <div class="stat-title">
+                              <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/95e4eb8e186aa04c2d5651c6aa5201f79998bbfc9cdbb1ca186ad1e09c807b88?apiKey=d7daa8b245d6453db44db71c08c14657&&apiKey=d7daa8b245d6453db44db71c08c14657" class="stat-icon" alt="Next Rank Points Icon" />
+                              <span class="stat-name">Points to the next rank</span>
+                            </div>
+                            <span class="stat-value">200 Points</span>
+                          </div>
+                        </div>
+                        <div class="subject-levels">
+                          <div class="levels-grid">
+                            <div class="subject-level">
+                              <div class="level-item">
+                                <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/fbdc035c965e3361e6dec686ba78712ac6f9f4e7c1455fef00146efca384c77a?apiKey=d7daa8b245d6453db44db71c08c14657&&apiKey=d7daa8b245d6453db44db71c08c14657" class="level-icon" alt="Math Level Icon" />
+                                <div class="level-info">
+                                  <span class="level-name">Math Level</span>
+                                  <span class="level-value">5</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="subject-level">
+                              <div class="level-item">
+                                <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/b6d0aadf0d8c9ef5ca1566d047a60c43e9697022d2299f6155dc4401e57d60c4?apiKey=d7daa8b245d6453db44db71c08c14657&&apiKey=d7daa8b245d6453db44db71c08c14657" class="level-icon" alt="Reading Level Icon" />
+                                <div class="level-info">
+                                  <span class="level-name">Reading Level</span>
+                                  <span class="level-value">6</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="most-improved">
+                          <h3 class="improved-title">Most Improved</h3>
+                          <span class="improved-subject">Math</span>
+                          <p class="improved-description">Your score went from 80 to a 95 in your most recent quiz!</p>
+                        </div>
+                        <button class="progress-see-more">See More</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        
+        <div class="badges-class-section">
+          <div class="badges-class-grid">
+            <div class="badges-column">
+              <div class="badges-container">
+                <h2 class="badges-title">Badges</h2>
+                <div class="badges-content">
+                  <div class="badges-message">
+                    <p class="badges-congrats">Look at you go! You're climbing the mountain of knowledge!</p>
+                    <p class="badges-count">You earned 6 badges this week!</p>
+                  </div>
+                  <div class="badges-grid">
+                    <div class="badges-row">
+                      <div class="badge-item">
+                        <div class="badge-container">
+                          <div class="badge-icon"></div>
+                          <span class="badge-name">Badge Name</span>
+                        </div>
+                      </div>
+                      <div class="badge-item">
+                        <div class="badge-container">
+                          <div class="badge-icon"></div>
+                          <span class="badge-name">Badge Name</span>
+                        </div>
+                      </div>
+                      <div class="badge-item">
+                        <div class="badge-container">
+                          <div class="badge-icon"></div>
+                          <span class="badge-name">Badge Name</span>
+                        </div>
+                      </div>
+                      <div class="badge-item">
+                        <div class="badge-container">
+                          <div class="badge-icon"></div>
+                          <span class="badge-name">Badge Name</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="badges-see-more">See More</button>
+                </div>
+              </div>
+            </div>
+            <div class="class-progress-column">
+              <div class="class-progress-container">
+                <h2 class="class-progress-title">Class Progress</h2>
+                <div class="class-progress-content">
+                  <div class="class-stats">
+                    <div class="class-stat-item">
+                      <div class="class-stat-title">
+                        <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/95e4eb8e186aa04c2d5651c6aa5201f79998bbfc9cdbb1ca186ad1e09c807b88?apiKey=d7daa8b245d6453db44db71c08c14657&&apiKey=d7daa8b245d6453db44db71c08c14657" class="class-stat-icon" alt="Class Points Icon" />
+                        <span class="class-stat-name">Class Points</span>
+                      </div>
+                      <span class="class-stat-value">125,000 Points</span>
+                    </div>
+                    <div class="class-stat-item">
+                      <div class="class-stat-title">
+                        <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/8f1b17ac31416464b12d5127b9f6af61dda980636866c0f824bdfef7bd4f3357?apiKey=d7daa8b245d6453db44db71c08c14657&&apiKey=d7daa8b245d6453db44db71c08c14657" class="class-stat-icon" alt="Quizzes Taken Icon" />
+                        <span class="class-stat-name">Quizzes Taken</span>
+                      </div>
+                      <span class="class-stat-value">122 Quizzes</span>
+                    </div>
+                  </div>
+                  <div class="class-stats">
+                    <div class="class-stat-item">
+                      <div class="class-stat-title">
+                        <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/95e4eb8e186aa04c2d5651c6aa5201f79998bbfc9cdbb1ca186ad1e09c807b88?apiKey=d7daa8b245d6453db44db71c08c14657&&apiKey=d7daa8b245d6453db44db71c08c14657" class="class-stat-icon" alt="Total XP Icon" />
+                        <span class="class-stat-name">Total XP</span>
+                      </div>
+                      <span class="class-stat-value">525,000 XP</span>
+                    </div>
+                    <div class="class-stat-item">
+                      <div class="class-stat-title">
+                        <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/caa34c8de3c7cf7ae89e52b79bcd02d42392e0a441d30a30e6a2c97c592e1dd1?apiKey=d7daa8b245d6453db44db71c08c14657&&apiKey=d7daa8b245d6453db44db71c08c14657" class="class-stat-icon" alt="Badges Earned Icon" />
+                        <span class="class-stat-name">Badges Earned</span>
+                      </div>
+                      <span class="class-stat-value">422 Badges</span>
+                    </div>
+                  </div>
+                  <button class="class-progress-see-more">See More</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <script>
+             function applyColorScheme(color) {
+            switch(color) {
+                case 'blue':
+                    document.documentElement.style.backgroundColor = '#E6F0FF';
+                    title.style.color = '#004AAD';
+                    button.style.backgroundColor = '#004AAD';
+                    break;
+                case 'green':
+                    document.documentElement.style.backgroundColor = '#E8F5E9';
+                    title.style.color = '#2E7D32';
+                    button.style.backgroundColor = '#4CAF50';
+                    break;
+                case 'pink':
+                    document.documentElement.style.backgroundColor = '#FCE4EC';
+                    title.style.color = '#FF4081';
+                    button.style.backgroundColor = '#FF4081';
+                    break;
+                case 'white':
+                default:
+                    document.documentElement.style.backgroundColor = '#F0E6F5';
+                    title.style.color = '#1A1A1A';
+                    button.style.backgroundColor = '#004AAD';
+                    break;
+            }
+        }
+
+        function fetchColorPreference() {
+            fetch('https://your-azure-function-url.azurewebsites.net/api/getColorPreference')
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.color) {
+                        applyColorScheme(data.color);
+                    } else {
+                        applyColorScheme('white');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching color preference:', error);
+                    applyColorScheme('white');
+                });
+        }
+
+        </script>
+      </main>
+    </section>

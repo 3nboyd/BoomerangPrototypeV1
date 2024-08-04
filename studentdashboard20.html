@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Dashboard - Boomerang Learning</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --primary-color: #004AAD;
+        --secondary-color: #E6F0FF;
+        --text-color: #1A1A1A;
+        --background-color: #F0E6F5;
+    }
+    body {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: var(--background-color);
+        color: var(--text-color);
+    }
+    .dashboard-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+    .logo {
+        width: 200px;
+    }
+    .user-info {
+        text-align: right;
+    }
+    .user-name {
+        font-size: 24px;
+        font-weight: 700;
+    }
+    .user-role {
+        font-size: 16px;
+    }
+    .main-content {
+        display: flex;
+        gap: 30px;
+    }
+    .left-column {
+        flex: 2;
+    }
+    .right-column {
+        flex: 1;
+    }
+    .section {
+        background-color: #fff;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .section-title {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+    .quiz-item, .badge-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    .quiz-icon, .badge-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 15px;
+        object-fit: cover;
+    }
+    .quiz-name, .badge-name {
+        font-size: 16px;
+        font-weight: 500;
+    }
+    .see-more-btn {
+        background-color: var(--primary-color);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .see-more-btn:hover {
+        background-color: #003C8A;
+    }
+    .nav-menu {
+        display: flex;
+        justify-content: space-around;
+        background-color: #fff;
+        padding: 15px;
+        border-radius: 12px;
+        margin-bottom: 30px;
+    }
+    .nav-item {
+        text-decoration: none;
+        color: var(--text-color);
+        font-weight: 600;
+        transition: color 0.3s;
+    }
+    .nav-item:hover, .nav-item.active {
+        color: var(--primary-color);
+    }
+    @media (max-width: 768px) {
+        .main-content {
+            flex-direction: column;
+        }
+        .left-column, .right-column {
+            flex: 1;
+        }
+    }
+</style>
+</head>
+<body>
+<div class="dashboard-container">
+    <header class="header">
+        <img src="logos/2.png" alt="Boomerang Learning Logo" class="logo">
+        <div class="user-info">
+            <div class="user-name" id="userName">Loading...</div>
+            <div class="user-role" id="userRole">Student</div>
+        </div>
+    </header>
+    <nav class="nav-menu">
+        <a href="#dashboard" class="nav-item active">Dashboard</a>
+        <a href="#messages" class="nav-item">Messages</a>
+        <a href="#settings" class="nav-item">Settings</a>
+    </nav>
+    <main class="main-content">
+        <div class="left-column">
+            <section class="section" id="quizzesSection">
+                <h2 class="section-title">Quizzes</h2>
+                <div id="quizzesList"></div>
+                <button class="see-more-btn" onclick="seeMoreQuizzes()">See More</button>
+            </section>
+        </div>
+        <div class="right-column">
+            <section class="section" id="badgesSection">
+                <h2 class="section-title">Badges</h2>
+                <div id="badgesList"></div>
+                <button class="see-more-btn" onclick="seeMoreBadges()">See More</button>
+            </section>
+        </div>
+    </main>
+</div>
+<script>
+    let userColorPreference = 'white';
+    const userName = document.getElementById('userName');
+    const userRole = document.getElementById('userRole');
+    const quizzesList = document.getElementById('quizzesList');
+    const badgesList = document.getElementById('badgesList');
+
+    function applyColorScheme(color) {
+        const root = document.documentElement;
+        switch(color) {
+            case 'blue':
+                root.style.setProperty('--primary-color', '#004AAD');
+                root.style.setProperty('--secondary-color', '#E6F0FF');
+                root.style.setProperty('--background-color', '#E6F0FF');
+                break;
+            case 'green':
+                root.style.setProperty('--primary-color', '#4CAF50');
+                root.style.setProperty('--secondary-color', '#E8F5E9');
+                root.style.setProperty('--background-color', '#E8F5E9');
+                break;
+            case 'pink':
+                root.style.setProperty('--primary-color', '#FF4081');
+                root.style.setProperty('--secondary-color', '#FCE4EC');
+                root.style.setProperty('--background-color', '#FCE4EC');
+                break;
+            case 'white':
+            default:
+                root.style.setProperty('--primary-color', '#004AAD');
+                root.style.setProperty('--secondary-color', '#E6F0FF');
+                root.style.setProperty('--background-color', '#F0E6F5');
+                break;
+        }
+    }
+
+    function fetchUserData() {
+        fetch('https://your-azure-function-url.azurewebsites.net/api/getUserData')
+            .then(response => response.json())
+            .then(data => {
+                userName.textContent = data.name || 'Guest';
+                userRole.textContent = data.role || 'Student';
+                userColorPreference = data.colorPreference || 'white';
+                applyColorScheme(userColorPreference);
+            })
+            .catch(error => {
+                console.error('Error fetching user data:', error);
+                userName.textContent = 'Guest';
+            });
+    }
+
+    function fetchQuizzes() {
+        fetch('https://your-azure-function-url.azurewebsites.net/api/getQuizzes')
+            .then(response => response.json())
+            .then(data => {
+                if (data.length > 0) {
+                    quizzesList.innerHTML = data.slice(0, 3).map(quiz => `
+                        <div class="quiz-item">
+                            <img src="${quiz.icon}" alt="${quiz.name}" class="quiz-icon">
+                            <span class="quiz-name">${quiz.name}</span>
+                        </div>
+                    `).join('');
+                } else {
+                    quizzesList.innerHTML = '<p>No quizzes available at the moment.</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching quizzes:', error);
+                quizzesList.innerHTML = '<p>Error loading quizzes. Please try again later.</p>';
+            });
+    }
+
+    function fetchBadges() {
+        fetch('https://your-azure-function-url.azurewebsites.net/api/getBadges')
+            .then(response => response.json())
+            .then(data => {
+                if (data.length > 0) {
+                    badgesList.innerHTML = data.slice(0, 3).map(badge => `
+                        <div class="badge-item">
+                            <img src="${badge.icon}" alt="${badge.name}" class="badge-icon">
+                            <span class="badge-name">${badge.name}</span>
+                        </div>
+                    `).join('');
+                } else {
+                    badgesList.innerHTML = '<p>No badges earned yet. Keep learning!</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching badges:', error);
+                badgesList.innerHTML = '<p>Error loading badges. Please try again later.</p>';
+            });
+    }
+
+    function seeMoreQuizzes() {
+        window.location.href = 'quizzes.html';
+    }
+
+    function seeMoreBadges() {
+        window.location.href = 'badges.html';
+    }
+
+    function initializeDashboard() {
+        fetchUserData();
+        fetchQuizzes();
+        fetchBadges();
+    }
+
+    window.onload = initializeDashboard;
+</script>
+</body>
+</html>

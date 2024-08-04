@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boomerang Learning</title>
+<link href="http://b.io/ext_6-" rel="stylesheet">
+<style>
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #F0E6F5;
+    display: flex;
+    flex-direction: column;
+}
+
+.welcome-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 110%;
+    color: #1A1A1A;
+    text-align: center;
+    padding: 27px 64px;
+    box-sizing: border-box;
+}
+
+.welcome-text {
+    margin-top: 80px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.main-image {
+    width: 628px;
+    max-width: 100%;
+    margin-top: 6px;
+}
+
+.customize-text {
+    margin-top: 40px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.cta-button {
+    border-radius: 12px;
+    background-color: #004AAD;
+    width: 881px;
+    max-width: 100%;
+    color: #FFFFFF;
+    padding: 16px 32px;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 133%;
+    font-family: 'Poppins', sans-serif;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 40px;
+}
+
+.cta-button:hover {
+    background-color: #003C8A;
+}
+
+@media (max-width: 991px) {
+    .welcome-container {
+        padding: 40px 20px 20px;
+    }
+
+    .welcome-text {
+        margin-top: 0;
+        white-space: nowrap;
+    }
+
+    .main-image {
+        width: 100%;
+    }
+
+    .customize-text {
+        margin-top: 20px;
+    }
+
+    .cta-button {
+        margin-top: 20px;
+        padding: 12px 20px;
+        font-size: 20px;
+        border-radius: 24px;
+    }
+}
+</style>
+</head>
+<body>
+<section class="welcome-container">
+    <h1 class="welcome-text">Welcome to</h1>
+    <img src="logos/2.png" alt="Illustration of learning customization" class="main-image">
+    <p class="customize-text">Customize your learning!</p>
+    <a href="favoritecolor.html">
+        <button class="cta-button">Get Started</button>
+    </a>
+</section>
+</body>
+</html>

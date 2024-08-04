@@ -1,0 +1,756 @@
+<!-- <style>
+    .avatar-customization {
+      border-radius: 24px;
+      background-color: #e1e1e1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 27px 64px 80px;
+    }
+    
+    .back-button {
+      aspect-ratio: 1.96;
+      object-fit: auto;
+      object-position: center;
+      width: 152px;
+      align-self: start;
+      max-width: 100%;
+    }
+    
+    .progress-container {
+      display: flex;
+      margin-top: 43px;
+      width: 1488px;
+      max-width: 100%;
+      padding-right: 48px;
+      gap: 20px;
+    }
+    
+    .progress-icon {
+      aspect-ratio: 1;
+      object-fit: auto;
+      object-position: center;
+      width: 24px;
+    }
+    
+    .progress-bar {
+      border-radius: 12px;
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex: 1;
+      margin: auto 0;
+    }
+    
+    .progress-indicator {
+      border-radius: 12px;
+      background-color: #c6c6c6;
+      width: 1326px;
+      max-width: 100%;
+      height: 12px;
+    }
+    
+    .customization-container {
+      margin-top: 85px;
+      width: 100%;
+      max-width: 1488px;
+    }
+    
+    .customization-layout {
+      gap: 20px;
+      display: flex;
+    }
+    
+    .left-column {
+      display: flex;
+      flex-direction: column;
+      line-height: normal;
+      width: 24%;
+      margin-left: 0px;
+    }
+    
+    .option-container {
+      display: flex;
+      margin-top: 29px;
+      flex-grow: 1;
+      flex-direction: column;
+      font-size: 24px;
+      color: #000;
+      font-weight: 700;
+      text-align: center;
+      line-height: 133%;
+    }
+    
+    .option-item {
+      justify-content: center;
+      border-radius: 12px;
+      background-color: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      white-space: nowrap;
+      padding: 24px;
+    }
+    
+    .option-icon {
+      background-color: #c3c3c3;
+      border-radius: 50%;
+      align-self: center;
+      width: 106px;
+      height: 106px;
+    }
+    
+    .option-text {
+      font-family: Noto Sans, sans-serif;
+      margin-top: 12px;
+    }
+    
+    .center-column {
+      display: flex;
+      flex-direction: column;
+      line-height: normal;
+      width: 55%;
+      margin-left: 20px;
+    }
+    
+    .avatar-setup {
+      display: flex;
+      flex-grow: 1;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    
+    .setup-title {
+      color: #000;
+      font: 700 40px/110% Noto Sans, sans-serif;
+    }
+    
+    .avatar-preview {
+      border-radius: 50%;
+      background-color: #fff;
+      margin-top: 41px;
+      width: 475px;
+      max-width: 100%;
+      height: 474px;
+    }
+    
+    .continue-button {
+      border-radius: 12px;
+      background-color: #494949;
+      align-self: stretch;
+      margin-top: 67px;
+      color: #fff;
+      white-space: nowrap;
+      padding: 16px 32px;
+      font: 600 24px/133% Noto Sans, sans-serif;
+    }
+    
+    .right-column {
+      display: flex;
+      flex-direction: column;
+      line-height: normal;
+      width: 21%;
+      margin-left: 20px;
+    }
+    
+    @media (max-width: 991px) {
+      .avatar-customization {
+        padding: 0 20px;
+      }
+    
+      .progress-container {
+        flex-wrap: wrap;
+        padding-right: 20px;
+        margin-top: 40px;
+      }
+    
+      .progress-bar {
+        max-width: 100%;
+      }
+    
+      .progress-indicator {
+        margin-right: 6px;
+      }
+    
+      .customization-container {
+        max-width: 100%;
+        margin-top: 40px;
+      }
+    
+      .customization-layout {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0px;
+      }
+    
+      .left-column,
+      .center-column,
+      .right-column {
+        width: 100%;
+      }
+    
+      .option-container,
+      .avatar-setup,
+      .right-column .option-container {
+        margin-top: 40px;
+      }
+    
+      .option-item,
+      .right-column .option-item {
+        white-space: initial;
+        padding: 0 20px;
+      }
+    
+      .continue-button {
+        max-width: 100%;
+        margin-top: 40px;
+        white-space: initial;
+        padding: 16px 20px;
+      }
+    }
+    </style>
+    
+    <section class="avatar-customization">
+      <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/863c2921b6630b4488fdbfeec27b1a8f78c85b6a72a5ecf3555d0635d9876663?apiKey=d7daa8b245d6453db44db71c08c14657&&apiKey=d7daa8b245d6453db44db71c08c14657" alt="Back button" class="back-button" />
+      <div class="progress-container">
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/ac80a1e6d3c6bf8733274322a1494828b3c52dcc25cfcfe8046ae66ac9241d2a?apiKey=d7daa8b245d6453db44db71c08c14657&&apiKey=d7daa8b245d6453db44db71c08c14657" alt="Progress icon" class="progress-icon" />
+        <div class="progress-bar">
+          <div class="progress-indicator"></div>
+        </div>
+      </div>
+      <div class="customization-container">
+        <div class="customization-layout">
+          <div class="left-column">
+            <div class="option-container">
+              <div class="option-item">
+                <div class="option-icon" role="img" aria-label="Animal option"></div>
+                <p class="option-text">Animal</p>
+              </div>
+              <div class="option-item">
+                <div class="option-icon" role="img" aria-label="Expressions option"></div>
+                <p class="option-text">Expressions</p>
+              </div>
+              <div class="option-item">
+                <div class="option-icon" role="img" aria-label="Banner Color option"></div>
+                <p class="option-text">Banner Color</p>
+              </div>
+            </div>
+          </div>
+          <div class="center-column">
+            <div class="avatar-setup">
+              <h1 class="setup-title">Set Up Your Avatar</h1>
+              <div class="avatar-preview" role="img" aria-label="Avatar preview"></div>
+              <button class="continue-button">Continue</button>
+            </div>
+          </div>
+          <div class="right-column">
+            <div class="option-container">
+              <div class="option-item">
+                <div class="option-icon" role="img" aria-label="Hair option"></div>
+                <p class="option-text">Hair</p>
+              </div>
+              <div class="option-item">
+                <div class="option-icon" role="img" aria-label="Clothes option"></div>
+                <p class="option-text">Clothes</p>
+              </div>
+              <div class="option-item">
+                <div class="option-icon" role="img" aria-label="Glasses option"></div>
+                <p class="option-text">Glasses</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> -->
+    <style>
+        .avatar-customization {
+          border-radius: 24px;
+          background-color: #e1e1e1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 27px 64px 80px;
+        }
+      
+        .back-button {
+          aspect-ratio: 1.96;
+          object-fit: auto;
+          object-position: center;
+          width: 152px;
+          align-self: start;
+          max-width: 100%;
+          cursor: pointer;
+        }
+      
+        .progress-container {
+          display: flex;
+          margin-top: 43px;
+          width: 1488px;
+          max-width: 100%;
+          padding-right: 48px;
+          gap: 20px;
+        }
+      
+        .progress-icon {
+          aspect-ratio: 1;
+          object-fit: auto;
+          object-position: center;
+          width: 24px;
+        }
+      
+        .progress-bar {
+          border-radius: 12px;
+          background-color: #fff;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          flex: 1;
+          margin: auto 0;
+        }
+      
+        .progress-indicator {
+          border-radius: 12px;
+          background-color: #c6c6c6;
+          width: 1326px;
+          max-width: 100%;
+          height: 12px;
+        }
+      
+        .customization-container {
+          margin-top: 85px;
+          width: 100%;
+          max-width: 1488px;
+        }
+      
+        .customization-layout {
+          gap: 20px;
+          display: flex;
+        }
+      
+        .column {
+          display: flex;
+          flex-direction: column;
+          line-height: normal;
+        }
+      
+        .left-column {
+          width: 24%;
+          margin-left: 0px;
+        }
+      
+        .center-column {
+          width: 55%;
+          margin-left: 20px;
+        }
+      
+        .right-column {
+          width: 21%;
+          margin-left: 20px;
+        }
+      
+        .option-container {
+          display: flex;
+          margin-top: 29px;
+          flex-grow: 1;
+          flex-direction: column;
+          font-size: 24px;
+          color: #000;
+          font-weight: 700;
+          text-align: center;
+          line-height: 133%;
+        }
+      
+        .option-item {
+          justify-content: center;
+          border-radius: 12px;
+          background-color: #f4f4f4;
+          display: flex;
+          flex-direction: column;
+          white-space: nowrap;
+          padding: 24px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+        }
+      
+        .option-item.selected {
+          background-color: #d4d4d4;
+        }
+      
+        .option-icon {
+          background-color: #c3c3c3;
+          border-radius: 50%;
+          align-self: center;
+          width: 106px;
+          height: 106px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          overflow: hidden;
+        }
+      
+        .option-icon img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      
+        .option-text {
+          font-family: Noto Sans, sans-serif;
+          margin-top: 12px;
+        }
+      
+        .avatar-setup {
+          display: flex;
+          flex-grow: 1;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+        }
+      
+        .setup-title {
+          color: #000;
+          font: 700 40px/110% Noto Sans, sans-serif;
+        }
+      
+        .avatar-preview {
+          border-radius: 50%;
+          background-color: #fff;
+          margin-top: 41px;
+          width: 475px;
+          max-width: 100%;
+          height: 474px;
+          position: relative;
+          overflow: hidden;
+        }
+      
+        .avatar-preview img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      
+        .continue-button {
+          border-radius: 12px;
+          background-color: #494949;
+          align-self: stretch;
+          margin-top: 67px;
+          color: #fff;
+          white-space: nowrap;
+          padding: 16px 32px;
+          font: 600 24px/133% Noto Sans, sans-serif;
+          cursor: pointer;
+          border: none;
+          transition: background-color 0.3s;
+        }
+      
+        .continue-button:hover {
+          background-color: #333333;
+        }
+      
+        .options-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 20px;
+          margin-top: 40px;
+        }
+      
+        .option-choice {
+          border-radius: 12px;
+          background-color: #f4f4f4;
+          padding: 20px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+        }
+      
+        .option-choice.selected {
+          background-color: #d4d4d4;
+        }
+      
+        .option-choice-icon {
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          background-color: #c3c3c3;
+          margin: 0 auto 10px;
+          overflow: hidden;
+        }
+      
+        .option-choice-icon img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      
+        .option-choice-text {
+          text-align: center;
+          font-family: Noto Sans, sans-serif;
+          font-size: 18px;
+          font-weight: 600;
+        }
+      
+        @media (max-width: 991px) {
+          .avatar-customization {
+            padding: 0 20px;
+          }
+      
+          .progress-container {
+            flex-wrap: wrap;
+            padding-right: 20px;
+            margin-top: 40px;
+          }
+      
+          .progress-bar {
+            max-width: 100%;
+          }
+      
+          .progress-indicator {
+            margin-right: 6px;
+          }
+      
+          .customization-container {
+            max-width: 100%;
+            margin-top: 40px;
+          }
+      
+          .customization-layout {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0px;
+          }
+      
+          .left-column,
+          .center-column,
+          .right-column {
+            width: 100%;
+            margin-left: 0;
+          }
+      
+          .option-container,
+          .avatar-setup {
+            margin-top: 40px;
+          }
+      
+          .option-item {
+            white-space: initial;
+            padding: 0 20px;
+          }
+      
+          .continue-button {
+            max-width: 100%;
+            margin-top: 40px;
+            white-space: initial;
+            padding: 16px 20px;
+          }
+      
+          .options-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+      </style>
+      
+      <section class="avatar-customization" id="avatarCustomization">
+        <img src="http://b.io/ext_3-" alt="Back button" class="back-button" id="backButton" />
+        <div class="progress-container">
+          <img src="http://b.io/ext_4-" alt="Progress icon" class="progress-icon" />
+          <div class="progress-bar">
+            <div class="progress-indicator"></div>
+          </div>
+        </div>
+        <div class="customization-container">
+          <div class="customization-layout">
+            <div class="column left-column">
+              <div class="option-container">
+                <div class="option-item" data-option="animal">
+                  <div class="option-icon" role="img" aria-label="Animal option">
+                    <img src="http://b.io/animal-icon.png" alt="Animal" />
+                  </div>
+                  <p class="option-text">Animal</p>
+                </div>
+                <div class="option-item" data-option="expressions">
+                  <div class="option-icon" role="img" aria-label="Expressions option">
+                    <img src="http://b.io/expressions-icon.png" alt="Expressions" />
+                  </div>
+                  <p class="option-text">Expressions</p>
+                </div>
+                <div class="option-item" data-option="bannerColor">
+                  <div class="option-icon" role="img" aria-label="Banner Color option">
+                    <img src="http://b.io/banner-color-icon.png" alt="Banner Color" />
+                  </div>
+                  <p class="option-text">Banner Color</p>
+                </div>
+              </div>
+            </div>
+            <div class="column center-column">
+              <div class="avatar-setup">
+                <h1 class="setup-title">Set Up Your Avatar</h1>
+                <div class="avatar-preview" role="img" aria-label="Avatar preview">
+                  <img src="http://b.io/default-avatar.png" alt="Default Avatar" id="avatarImage" />
+                </div>
+                <button class="continue-button">Continue</button>
+              </div>
+            </div>
+            <div class="column right-column">
+              <div class="option-container">
+                <div class="option-item" data-option="hair">
+                  <div class="option-icon" role="img" aria-label="Hair option">
+                    <img src="http://b.io/hair-icon.png" alt="Hair" />
+                  </div>
+                  <p class="option-text">Hair</p>
+                </div>
+                <div class="option-item" data-option="clothes">
+                  <div class="option-icon" role="img" aria-label="Clothes option">
+                    <img src="http://b.io/clothes-icon.png" alt="Clothes" />
+                  </div>
+                  <p class="option-text">Clothes</p>
+                </div>
+                <div class="option-item" data-option="glasses">
+                  <div class="option-icon" role="img" aria-label="Glasses option">
+                    <img src="http://b.io/glasses-icon.png" alt="Glasses" />
+                  </div>
+                  <p class="option-text">Glasses</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <section class="avatar-customization" id="optionCustomization" style="display: none;">
+        <img src="http://b.io/ext_3-" alt="Back button" class="back-button" id="optionBackButton" />
+        <h2 class="setup-title" id="optionTitle">Choose Your Option</h2>
+        <div class="options-grid" id="optionsGrid"></div>
+      </section>
+      
+      <script>
+        const avatarCustomization = document.getElementById('avatarCustomization');
+        const optionCustomization = document.getElementById('optionCustomization');
+        const backButton = document.getElementById('backButton');
+        const optionBackButton = document.getElementById('optionBackButton');
+        const optionItems = document.querySelectorAll('.option-item');
+        const optionsGrid = document.getElementById('optionsGrid');
+        const optionTitle = document.getElementById('optionTitle');
+        const avatarImage = document.getElementById('avatarImage');
+      
+        const options = {
+          animal: [
+            { src: 'personalization/cattemp.webp', text: 'Cat' },
+            { src: 'http://b.io/dog.png', text: 'Dog' },
+            { src: 'http://b.io/rabbit.png', text: 'Rabbit' },
+            { src: 'http://b.io/bear.png', text: 'Bear' },
+            { src: 'http://b.io/fox.png', text: 'Fox' },
+            { src: 'http://b.io/owl.png', text: 'Owl' },
+          ],
+          expressions: [
+            { src: 'http://b.io/happy.png', text: 'Happy' },
+            { src: 'http://b.io/sad.png', text: 'Sad' },
+            { src: 'http://b.io/angry.png', text: 'Angry' },
+            { src: 'http://b.io/surprised.png', text: 'Surprised' },
+            { src: 'http://b.io/sleepy.png', text: 'Sleepy' },
+            { src: 'http://b.io/cool.png', text: 'Cool' },
+          ],
+          bannerColor: [
+            { src: 'http://b.io/red.png', text: 'Red' },
+            { src: 'http://b.io/blue.png', text: 'Blue' },
+            { src: 'http://b.io/green.png', text: 'Green' },
+            { src: 'http://b.io/yellow.png', text: 'Yellow' },
+            { src: 'http://b.io/purple.png', text: 'Purple' },
+            { src: 'http://b.io/orange.png', text: 'Orange' },
+          ],
+          hair: [
+            { src: 'http://b.io/short.png', text: 'Short' },
+            { src: 'http://b.io/long.png', text: 'Long' },
+            { src: 'http://b.io/curly.png', text: 'Curly' },
+            { src: 'http://b.io/bald.png', text: 'Bald' },
+            { src: 'http://b.io/mohawk.png', text: 'Mohawk' },
+            { src: 'http://b.io/ponytail.png', text: 'Ponytail' },
+          ],
+          clothes: [
+            { src: 'http://b.io/tshirt.png', text: 'T-Shirt' },
+            { src: 'http://b.io/suit.png', text: 'Suit' },
+            { src: 'http://b.io/dress.png', text: 'Dress' },
+            { src: 'http://b.io/hoodie.png', text: 'Hoodie' },
+            { src: 'http://b.io/jacket.png', text: 'Jacket' },
+            { src: 'http://b.io/sweater.png', text: 'Sweater' },
+          ],
+          glasses: [
+            { src: 'http://b.io/round.png', text: 'Round' },
+            { src: 'http://b.io/square.png', text: 'Square' },
+            { src: 'http://b.io/cat-eye.png', text: 'Cat Eye' },
+            { src: 'http://b.io/aviator.png', text: 'Aviator' },
+            { src: 'http://b.io/rimless.png', text: 'Rimless' },
+            { src: 'http://b.io/sunglasses.png', text: 'Sunglasses' },
+          ],
+        };
+      
+        let currentOption = '';
+        const selectedOptions = {};
+      
+        function showOptionCustomization(option) {
+          currentOption = option;
+          avatarCustomization.style.display = 'none';
+          optionCustomization.style.display = 'flex';
+          optionTitle.textContent = `Choose Your ${option.charAt(0).toUpperCase() + option.slice(1)}`;
+          renderOptions(option);
+        }
+      
+        function renderOptions(option) {
+          optionsGrid.innerHTML = '';
+          options[option].forEach((item, index) => {
+            const optionChoice = document.createElement('div');
+            optionChoice.className = 'option-choice';
+            optionChoice.innerHTML = `
+              <div class="option-choice-icon">
+                <img src="${item.src}" alt="${item.text}">
+              </div>
+              <p class="option-choice-text">${item.text}</p>
+            `;
+            optionChoice.addEventListener('click', () => selectOption(option, index));
+            optionsGrid.appendChild(optionChoice);
+          });
+          updateSelectedOption();
+        }
+      
+        function selectOption(option, index) {
+          selectedOptions[option] = index;
+          updateSelectedOption();
+          updateAvatarPreview();
+        }
+      
+        function updateSelectedOption() {
+          const choices = optionsGrid.querySelectorAll('.option-choice');
+          choices.forEach((choice, index) => {
+            if (index === selectedOptions[currentOption]) {
+              choice.classList.add('selected');
+            } else {
+              choice.classList.remove('selected');
+            }
+          });
+        }
+      
+        function updateAvatarPreview() {
+          const selectedItems = Object.entries(selectedOptions).map(([option, index]) => options[option][index].src);
+          avatarImage.src = `http://b.io/avatar-generator?items=${selectedItems.join(',')}`;
+        }
+      
+        function showAvatarCustomization() {
+          avatarCustomization.style.display = 'flex';
+          optionCustomization.style.display = 'none';
+        }
+      
+        optionItems.forEach(item => {
+          item.addEventListener('click', () => showOptionCustomization(item.dataset.option));
+        });
+      
+        backButton.addEventListener('click', () => {
+          // Handle back button click for main customization page
+        });
+      
+        optionBackButton.addEventListener('click', showAvatarCustomization);
+      
+        // Initialize avatar preview
+        updateAvatarPreview();
+      </script>
